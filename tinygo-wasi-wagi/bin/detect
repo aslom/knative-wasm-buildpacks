@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+set -eo pipefail
+plan=$2
+
+if [[ ! -f main.go ]]; then
+  echo "No function found (missing func.yaml file)"
+  exit 100
+fi

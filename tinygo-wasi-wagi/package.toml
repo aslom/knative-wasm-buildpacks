@@ -1,0 +1,2 @@
+[buildpack]
+uri = "../../knative-wasm-buildpacks/tinygo-wasi-wagi"

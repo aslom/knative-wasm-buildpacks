@@ -1,0 +1,10 @@
+api = "0.8"
+
+[buildpack]
+  id = "aslom/tinygo-wasi-wagi"
+  version = "0.0.1"
+
+[[stacks]]
+  id = "net.aslom.wasm.wagi.stack"
+  build-image = "aslom/tinygo-wasi-wagi-stack-build:v1"
+  run-image = "aslom/tinygo-wasi-wagi-stack-build:v1"

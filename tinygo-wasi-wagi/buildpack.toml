@@ -1,0 +1,25 @@
+# Buildpack
+api = "0.9"
+
+[buildpack]
+  id = "aslom/tinygo-wasi-wagi"
+  version = "0.0.1"
+  description = "TinyGo Wasm WASI WAGI Buildpack for Knative"
+  homepage = "https://github.com/aslom/knative-wasm-buildpacks"
+  keywords = ["knative", "tinygo", "webassembly", "wasm", "Wagi"]
+  name = "TinyGo Wasm WASI WAGI Buildpack for Knative"
+
+  [[buildpack.licenses]]
+    type = "Apache-2.0"
+    uri = "https://github.com/aslom/knative-wasm-buildpacks/blob/main/LICENSE"
+
+[metadata]
+  include-files = ["LICENSE", "README.md", "buildpack.toml"]
+
+
+[[stacks]]
+  id = "net.aslom.wasm.wagi"
+
+
+[[stacks]]
+  id = "*"

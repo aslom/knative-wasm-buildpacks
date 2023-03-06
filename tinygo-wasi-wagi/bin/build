@@ -1,0 +1,93 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+echo "--> Knative Functions Wasm TinyGo Buildpack"
+
+
+build_dir="$(pwd)"
+bp_dir=$(cd "$(dirname "$0")"/..; pwd)
+#layers_dir="$1"
+layersdir=$1
+
+# 2. CREATE THE LAYER DIRECTORY
+wagilayer="$layersdir"/wagi
+mkdir -p "$wagilayer"
+
+echo "build_dir=$build_dir bp_dir=$bp_dir layersdir=$1 wagilayer=$wagilayer"
+
+# cat > "${layersdir}/wagi.toml" << EOF
+# [types]
+# launch = true
+# EOF
+echo -e '[types]\nlaunch = true' > "$layersdir/wagi.toml"
+
+# # INJECT INVOCATION SCAFFOLDING (main)
+# #cp -r $bp_dir/faas $build_dir/faas
+# mkdir -p $build_dir/bin
+# tinygo_layer="$layers_dir"/tinygo
+# mkdir -p "$tinygo_layer"
+# tinygo_bin="$layers_dir"/tinygo-bin
+# mkdir -p "$tinygo_bin"
+
+
+# # https://tinygo.org/getting-started/install/
+# echo "--> Fetching TinyGo Wasm dependencies"
+# tinygo_ul=https://github.com/tinygo-org/tinygo/releases/download/v0.27.0/tinygo0.27.0.linux-amd64.tar.gz
+# wget -q -O - "$tinygo_ul" | tar -zxvf -C "$tinygo_layer"
+# # tinygo/bin/tinygo tinygo/bin/wasm-opt
+
+# export PATH="$tinygo_layer"/tinygo/bin:$PATH
+# export LD_LIBRARY_PATH=${LD_LIBRARY_PATH:+${LD_LIBRARY_PATH}:}"$tinygo_layer/tinygo/lib"
+
+#find "$tinygo_layer"
+#ls -l "$tinygo_layer/tinygo/bin/tinygo"
+
+#mv $tinygo_layer/tinygo/bin/tinygo "$tinygo_bin"
+
+#cp modules.toml $wagilayer/
+
+echo "--> Compiling main.go using tinygo"
+
+#cp $bp_dir/main.go $build_dir/
+
+# $tinygo_layer/tinygo/bin/tinygo build -wasm-abi=generic -target=wasi -o handler.wasm main.go
+
+tinygo info wasi
+
+tinygo build -target=wasi -o $wagilayer/main.wasm main.go
+#touch $wagilayer/foo
+
+echo "--> Check wagi"
+ls -l /usr/local/bin
+
+# Set default start command
+# cat > "$layersdir/launch.toml" << EOL
+# [[processes]]
+# type = "web"
+# command = "wagi -l 0.0.0.0:8080 -c /modules.toml"
+# default = true
+# EOL
+
+# [[processes]]
+# type = "web"
+# command = "${wagilayer}/foo"
+# default = true
+
+# 7. SET DEFAULT START COMMAND
+cat >> "$layersdir/launch.toml" << EOL
+[[processes]]
+type = "web"
+command = ["/usr/local/bin/wagi"]
+args = ["-l", "0.0.0.0:8080", "-c", "/workspace/modules.toml"]
+default = true
+
+[[processes]]
+type = "check"
+command = ["ls"]
+args = ["-l", "/usr/local/bin/"]
+
+
+EOL
+
+echo "--> cat $layersdir/launch.toml"
+cat "$layersdir/launch.toml"

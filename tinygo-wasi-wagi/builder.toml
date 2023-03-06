@@ -1,0 +1,16 @@
+# Builder
+[[buildpacks]]
+id = "aslom/tinygo-wasi-wagi"
+version = "0.0.1"
+uri = "../../knative-wasm-buildpacks/tinygo-wasi-wagi"
+
+
+[[order]]
+    [[order.group]]
+    id = "aslom/tinygo-wasi-wagi"
+    version = "0.0.1"
+
+[stack]
+id = "net.aslom.wasm.wagi"
+run-image = "docker.io/aslom/tinygo-wasi-wagi-stack-run:v1"
+build-image = "docker.io/aslom/tinygo-wasi-wagi-stack-build:v1"

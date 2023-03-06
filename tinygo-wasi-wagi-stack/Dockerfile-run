@@ -1,0 +1,19 @@
+# 1. Set a common base
+FROM tinygo/tinygo:0.27.0
+
+# 2. Set required CNB information
+ENV CNB_USER_ID=1000
+ENV CNB_GROUP_ID=1000
+ENV CNB_STACK_ID="net.aslom.wasm.wagi"
+LABEL io.buildpacks.stack.id="net.aslom.wasm.wagi"
+FROM aslom/knative-func-wasm-wagi:latest as run
+
+ENV CNB_USER_ID=1000
+ENV CNB_GROUP_ID=1000
+ENV CNB_STACK_ID="net.aslom.wasm.wagi"
+LABEL io.buildpacks.stack.id="net.aslom.wasm.wagi"
+
+COPY main.wasm /
+COPY modules.toml /
+RUN ["/usr/local/bin/wagi", "--help"]
+CMD [ "wagi", "-l", "0.0.0.0:8080", "-c", "/modules.toml" ]
