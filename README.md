@@ -29,15 +29,11 @@ docker push docker.io/aslom/tinygo-wasi-wagi-buildpack
 Test buildpack:
 
 ```
-cd ..
-
 pack build --clear-cache -v aslom/knative-wasm-tinygo-wasi-wagi --path ./func-wasm/tinygo/http-wagi  --buildpack docker.io/aslom/tinygo-wasi-wagi-buildpack --builder docker.io/aslom/tinygo-wasi-wagi-builder
 ```
 
 Test builpack dev mode:
 
 ```
-cd ..
-
-pack build --clear-cache -v aslom/knative-wasm-tinygo-wasi-wagi --path ./func-wasm/tinygo/http-wagi  --buildpack ./knative-wasm-buildpacks/tinygo-wasi-wagi 
+pack build --clear-cache -v aslom/knative-wasm-tinygo-wasi-wagi --path ./func-wasm/tinygo/http-wagi  --buildpack ./knative-wasm-buildpacks/tinygo-wasi-wagi --builder docker.io/aslom/tinygo-wasi-wagi-builder
 ```
