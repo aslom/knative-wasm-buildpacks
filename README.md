@@ -1,6 +1,8 @@
-# knative-wasm-buildpacks
+# Source code to for Knative Wasm WAGI buildpacks
 
-## Build build and run stacks
+Used by https://github.com/aslom/func-wasm
+
+## Build Wasm WAGI build and run stacks
 
 ```
 cd tinygo-wasi-wagi-stack
@@ -10,7 +12,7 @@ docker push aslom/tinygo-wasi-wagi-stack-run:v1
 docker push aslom/tinygo-wasi-wagi-stack-build:v1
 ```
 
-## Build builder and buildpack 
+## Build Wasm WAGI builder and buildpack 
 
 Required: install pack from buildpacks.io
 
