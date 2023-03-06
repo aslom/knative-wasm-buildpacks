@@ -1,1 +1,0 @@
-# knative-wasm-buildpacks
